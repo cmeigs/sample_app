@@ -1,11 +1,17 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.10'
-gem 'bootstrap-sass', '2.1'
+gem 'bootstrap-sass', '2.1'		# twitter bootstrap SAAS for CSS
+gem 'bcrypt-ruby', '3.0.1'		# encryption - state of the art hash function 
+
 
 group :development, :test do
   gem 'sqlite3', '1.3.5'
   gem 'rspec-rails', '2.11.0'
+end
+
+group :development do
+	gem 'annotate', '2.5.0'		# allows annotation to our models (and others?)
 end
 
 # Gems used only for assets and not required in production environments by default.
