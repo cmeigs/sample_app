@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.10'
 gem 'bootstrap-sass', '2.1'		# twitter bootstrap SAAS for CSS
-gem 'bcrypt-ruby', '3.0.1'		# encryption - state of the art hash function 
+gem 'bcrypt-ruby', '~> 3.0.1'		# encryption - state of the art hash function 
 
 
 group :development, :test do
