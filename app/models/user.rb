@@ -17,7 +17,8 @@ class User < ActiveRecord::Base
   has_secure_password
 
   # do before recored saves
-  before_save { |user| user.email = email.downcase }
+  before_save { |user| user.email = email.downcase }    # make sure email is lower-case
+  before_save :create_remember_token                    # create a remember token for cookie
 
   # validate name where not blank and lengh < 50
   validates :name, presence: true, length: { maximum: 50 }

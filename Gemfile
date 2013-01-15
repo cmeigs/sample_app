@@ -1,8 +1,11 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.10'
-gem 'bootstrap-sass', '2.1'		# twitter bootstrap SAAS for CSS
-gem 'bcrypt-ruby', '~> 3.0.1'		# encryption - state of the art hash function 
+gem 'bootstrap-sass', '2.1'				# twitter bootstrap SAAS for CSS
+gem 'bcrypt-ruby', '~> 3.0.1'			# encryption - state of the art hash function 
+gem 'faker', '1.0.1'					# gem to fake data
+gem 'will_paginate', '3.0.3'			# pagination
+gem 'bootstrap-will_paginate', '0.0.6'	# pagination
 
 
 group :development, :test do
