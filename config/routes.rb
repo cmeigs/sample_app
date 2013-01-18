@@ -7,6 +7,8 @@ SampleApp::Application.routes.draw do
   resources :users
   # create a session resource w/only new, create and destroy actions
   resources :sessions, only: [:new, :create, :destroy]
+  # micropost resource for create, destroy only
+  resources :microposts, only: [:create, :destroy]
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.

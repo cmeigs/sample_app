@@ -20,6 +20,7 @@ class UsersController < ApplicationController
   	
   def show
 		@user = User.find(params[:id])  	
+    @microposts = @user.microposts.paginate(page: params[:page])
   end
 
 
@@ -61,15 +62,6 @@ class UsersController < ApplicationController
 
   # private variables
   private
-
-    # make sure a user is signed in, else redirect to signin page
-    def signed_in_user
-      unless signed_in?
-        # store friendly URL so we can redirect after signin (stored in session)
-        store_location
-        redirect_to signin_url, notice: "Please sign in."
-      end
-    end
 
     # make sure current user is only allowed to edit their own info, else redirect to root
     def correct_user

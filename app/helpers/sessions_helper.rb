@@ -34,6 +34,16 @@ module SessionsHelper
     user == current_user
   end
 
+  # make sure a user is signed in, else redirect to signin page
+  def signed_in_user
+    unless signed_in?
+      # store friendly URL so we can redirect after signin (stored in session)
+      store_location
+      redirect_to signin_url, notice: "Please sign in."
+    end
+  end
+
+
   # signout user by setting current_user to null and deleting the cookie
   def sign_out
     self.current_user = nil

@@ -11,11 +11,15 @@
 
 class User < ActiveRecord::Base
   attr_accessible :name, :email, :password, :password_confirmation
-  
+
   # has_secure_password will allow password and password_confirmation above to not exist in the database 
   # and allow the password string to written to a database field specifically called "password_digest"
   has_secure_password
 
+  # creation of foriegn key to micropost
+  # "dependent: :destroy" means that if we destroy the user that all microposts belonging will also be destroyed
+  has_many :microposts, dependent: :destroy
+  
   # do before recored saves
   before_save { |user| user.email = email.downcase }    # make sure email is lower-case
   before_save :create_remember_token                    # create a remember token for cookie
@@ -33,6 +37,10 @@ class User < ActiveRecord::Base
   validates :password, presence: true, length: { minimum: 6 }
   validates :password_confirmation, presence: true
 
+  def feed
+    # This is preliminary. See "Following users" for the full implementation.
+    Micropost.where("user_id = ?", id)
+  end
   
   # private methods
   private
