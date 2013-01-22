@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   # authorization on edit and update functionality only
   #  make sure users are signed in before continuing
-  before_filter :signed_in_user, only: [:index, :edit, :update, :destroy]
+  before_filter :signed_in_user, only: [:index, :edit, :update, :destroy, :following, :followers]
   #  make sure users are only editing/updating their own information
   before_filter :correct_user,   only: [:edit, :update]
   # restrict the destroy method to admins only
@@ -57,6 +57,22 @@ class UsersController < ApplicationController
     User.find(params[:id]).destroy
     flash[:success] = "User destroyed."
     redirect_to users_url
+  end
+
+
+  def following
+    @title = "Following"
+    @user = User.find(params[:id])
+    @users = @user.followed_users.paginate(page: params[:page])
+    render 'show_follow'
+  end
+
+
+  def followers
+    @title = "Followers"
+    @user = User.find(params[:id])
+    @users = @user.followers.paginate(page: params[:page])
+    render 'show_follow'
   end
 
 

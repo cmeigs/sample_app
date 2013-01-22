@@ -4,11 +4,18 @@ SampleApp::Application.routes.draw do
   #get "users/new"
 
   # "resources" will give us all the actions needed for a RESTful resource (CRUD)
-  resources :users
+  resources :users do
+    member do
+      # will add get routes that look like this: /users/1/following and /users/1/followers
+      get :following, :followers
+    end
+  end
   # create a session resource w/only new, create and destroy actions
   resources :sessions, only: [:new, :create, :destroy]
   # micropost resource for create, destroy only
   resources :microposts, only: [:create, :destroy]
+  resources :relationships, only: [:create, :destroy]
+  
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.

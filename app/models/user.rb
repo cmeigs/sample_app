@@ -16,10 +16,17 @@ class User < ActiveRecord::Base
   # and allow the password string to written to a database field specifically called "password_digest"
   has_secure_password
 
-  # creation of foriegn key to micropost
+  # creation of user to micropost relationship through a lookup table called "relationships"
   # "dependent: :destroy" means that if we destroy the user that all microposts belonging will also be destroyed
   has_many :microposts, dependent: :destroy
+  has_many :relationships, foreign_key: "follower_id", dependent: :destroy
+  has_many :followed_users, through: :relationships, source: :followed
   
+  has_many :reverse_relationships, foreign_key: "followed_id",
+                                   class_name:  "Relationship",
+                                   dependent:   :destroy
+  has_many :followers, through: :reverse_relationships, source: :follower
+
   # do before recored saves
   before_save { |user| user.email = email.downcase }    # make sure email is lower-case
   before_save :create_remember_token                    # create a remember token for cookie
@@ -42,6 +49,24 @@ class User < ActiveRecord::Base
     Micropost.where("user_id = ?", id)
   end
   
+  def following?(other_user)
+    relationships.find_by_followed_id(other_user.id)
+  end
+
+  def follow!(other_user)
+    relationships.create!(followed_id: other_user.id)
+  end
+
+  def unfollow!(other_user)
+    relationships.find_by_followed_id(other_user.id).destroy
+  end
+
+  def feed
+    # call micropost class method to display feed
+    Micropost.from_users_followed_by(self)
+  end
+  
+
   # private methods
   private
 
